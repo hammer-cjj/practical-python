@@ -12,11 +12,15 @@
 # Exercise 1.30
 def portfolio_cost(filename):
     total = 0.0
-    with open('Data/portfolio.csv', 'rt') as f:
+    with open(filename, 'rt') as f:
         next(f)
+
         for line in f:
-            line_list = line.split(',')
-            total += int(line_list[1]) * float(line_list[2][:-1])
+            try:
+                line_list = line.split(',')
+                total += int(line_list[1]) * float(line_list[2][:-1])
+            except ValueError:
+                print('Bad row:', line)
     return total
 
 
