@@ -15,3 +15,15 @@ def read_portfolio(filename):
                 row[1]), 'price': float(row[2])}
             portfolio.append(holding)
     return portfolio
+
+
+def read_prices(filename):
+    with open(filename, 'r') as f:
+        prices = {}
+        rows = csv.reader(f)
+        for row in rows:
+            if row:
+                name = row[0]
+                price = float(row[1])
+                prices[name] = price
+        return prices
