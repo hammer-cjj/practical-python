@@ -27,3 +27,12 @@ def read_prices(filename):
                 price = float(row[1])
                 prices[name] = price
         return prices
+
+
+portfolio = read_portfolio('Data/portfolio.csv')
+prices = read_prices('Data/prices.csv')
+
+total = 0.0
+for s in portfolio:
+    total += s['shares'] * (prices[s['name']] - s['price'])
+print(total)
