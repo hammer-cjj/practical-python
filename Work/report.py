@@ -46,5 +46,6 @@ report = make_report(portfolio, prices)
 headers = ('Name', 'Shares', 'Price', 'Change')
 print('%10s %10s %10s %10s' % headers)
 print(('-' * 10 + ' ') * 4)
-for r in report:
-    print('%10s %10d %10.2f %10.2f' % r)
+for name, shares, price, change in report:
+    price = '$' + str(round(price, 2))
+    print(f'{name:>10s} {shares:>10d} {price:>10s} {change:>10.2f}')
