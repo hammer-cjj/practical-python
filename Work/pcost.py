@@ -9,12 +9,12 @@ def portfolio_cost(filename):
     with open(filename, 'rt') as f:
         next(f)
 
-        for line in f:
+        for rowno, row in enumerate(f, start=1):
             try:
-                line_list = line.split(',')
-                total += int(line_list[1]) * float(line_list[2][:-1])
+                row_list = row.split(',')
+                total += int(row_list[1]) * float(row_list[2][:-1])
             except ValueError:
-                print('Bad row:', line)
+                print(f'Row {rowno}: Bad row: {row}')
     return total
 
 
