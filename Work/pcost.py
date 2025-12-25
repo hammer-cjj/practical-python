@@ -1,20 +1,24 @@
 # pcost.py
 import sys
+import csv
 
 # Exercise 1.33
 
 
 def portfolio_cost(filename):
     total = 0.0
-    with open(filename, 'rt') as f:
-        next(f)
-
-        for rowno, row in enumerate(f, start=1):
-            try:
-                row_list = row.split(',')
-                total += int(row_list[1]) * float(row_list[2][:-1])
-            except ValueError:
-                print(f'Row {rowno}: Bad row: {row}')
+    f = open(filename)
+    rows = csv.reader(f)
+    headers = next(rows)
+    for rowno, row in enumerate(rows, start=1):
+        record = dict(zip(headers, row))
+        try:
+            nshares = int(record['shares'])
+            price = float(record['price'])
+            total += nshares * price
+        except ValueError:
+            print(f'Row {rowno}: Bad row: {row}')
+    f.close()
     return total
 
 
