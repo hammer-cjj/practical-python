@@ -5,6 +5,10 @@ import csv
 
 
 def read_portfolio(filename):
+    """
+    Read a stock portfolio file into a list of dictionaries with keys
+    name, shares, and price.
+    """
     portfolio = []
 
     with open(filename, 'rt') as f:
@@ -14,7 +18,12 @@ def read_portfolio(filename):
             # holding = {'name': row[0], 'shares': int(
             #     row[1]), 'price': float(row[2])}
             record = dict(zip(headers, row))
-            portfolio.append(record)
+            stock = {
+                'name': record['name'],
+                'shares': int(record['shares']),
+                'price': float(record['price'])
+            }
+            portfolio.append(stock)
     return portfolio
 
 
@@ -40,14 +49,30 @@ def make_report(stocks, prices):
     return report
 
 
-portfolio = read_portfolio('Data/portfoliodate.csv')
-prices = read_prices('Data/prices.csv')
-report = make_report(portfolio, prices)
+def print_report(report):
+    """
+    Print a nicely formatted table from a list of (name, shares, price, change) tuples.
+    """
+    headers = ('Name', 'Shares', 'Price', 'Change')
+    print('%10s %10s %10s %10s' % headers)
+    print(('-' * 10 + ' ') * 4)
+    for name, shares, price, change in report:
+        price = '$' + str(round(price, 2))
+        shares = int(shares)
+        print(f'{name:>10s} {shares:>10d} {price:>10s} {change:>10.2f}')
 
-headers = ('Name', 'Shares', 'Price', 'Change')
-print('%10s %10s %10s %10s' % headers)
-print(('-' * 10 + ' ') * 4)
-for name, shares, price, change in report:
-    price = '$' + str(round(price, 2))
-    shares = int(shares)
-    print(f'{name:>10s} {shares:>10d} {price:>10s} {change:>10.2f}')
+
+def portfolio_report(portfolio_filename, prices_filename):
+    portfolio = read_portfolio(portfolio_filename)
+    prices = read_prices(prices_filename)
+    report = make_report(portfolio, prices)
+    print_report(report)
+
+
+portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+
+# files = ['Data/portfolio.csv', 'Data/portfolio2.csv']
+# for name in files:
+#     print(f'{name:-^43s}')
+#     portfolio_report(name, 'Data/prices.csv')
+#     print()
