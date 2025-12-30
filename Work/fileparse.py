@@ -4,10 +4,13 @@
 import csv
 
 
-def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=','):
+def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=',', silence_errors=False):
     """
     Parse a CSV file into a list of records
     """
+    if select and not has_headers:
+        raise RuntimeError('select argument requires column headers')
+
     with open(filename) as f:
         rows = csv.reader(f, delimiter=delimiter)
 
@@ -22,21 +25,26 @@ def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=','
                 indices = []
 
         records = []
-        for row in rows:    # Skip rows with no data
+        for rowno, row in enumerate(rows, start=1):    # Skip rows with no data
             if not row:
                 continue
-            # Filter the row if specific columns are selected
-            if has_headers and indices:
-                row = [row[index] for index in indices]
-            # Perform type conversion
-            if types:
-                row = [func(val) for func, val in zip(types, row)]
+            try:
+                # Filter the row if specific columns are selected
+                if has_headers and indices:
+                    row = [row[index] for index in indices]
+                # Perform type conversion
+                if types:
+                    row = [func(val) for func, val in zip(types, row)]
 
-            # Make a dictionary
-            if has_headers:
-                record = dict(zip(headers, row))
-            else:    # Make a tuple
-                record = tuple(row)
+                # Make a dictionary
+                if has_headers:
+                    record = dict(zip(headers, row))
+                else:    # Make a tuple
+                    record = tuple(row)
 
-            records.append(record)
-    return records
+                records.append(record)
+            except ValueError as e:
+                if not silence_errors:
+                    print(f"Row: {rowno} Couldn't convert {row}")
+                    print(f"Row: {rowno} {e}")
+        return records
