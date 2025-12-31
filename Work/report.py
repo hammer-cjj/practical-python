@@ -2,9 +2,18 @@
 #
 # Exercise 2.4
 import csv
+from fileparse import parse_csv
 
 
 def read_portfolio(filename):
+    """
+    Read a stock portfolio file into a list of dictionaries with keys
+    name, shares, and price.
+    """
+    return parse_csv(filename, select=['name', 'shares', 'price'], types=[str, int, float])
+
+
+def read_portfolio2(filename):
     """
     Read a stock portfolio file into a list of dictionaries with keys
     name, shares, and price.
@@ -28,6 +37,13 @@ def read_portfolio(filename):
 
 
 def read_prices(filename):
+    """
+    Read a CSV file of price data into a dict mapping names to prices.
+    """
+    return dict(parse_csv(filename, types=[str, float], has_headers=False))
+
+
+def read_prices2(filename):
     with open(filename, 'r') as f:
         prices = {}
         rows = csv.reader(f)
