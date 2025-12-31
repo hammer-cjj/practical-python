@@ -1,11 +1,17 @@
 # pcost.py
 import sys
 import csv
+import report
 
 # Exercise 1.33
 
 
 def portfolio_cost(filename):
+    portfolio = report.read_portfolio(filename)
+    return sum([float(item['price']) * int(item['shares']) for item in portfolio])
+
+
+def portfolio_cost2(filename):
     total = 0.0
     f = open(filename)
     rows = csv.reader(f)
@@ -27,5 +33,5 @@ if len(sys.argv) == 2:
 else:
     filename = 'Data/portfolio.csv'
 
-cost = portfolio_cost(filename)
-print('Total cost:', cost)
+# cost = portfolio_cost(filename)
+# print('Total cost:', cost)

@@ -85,7 +85,7 @@ def portfolio_report(portfolio_filename, prices_filename):
     print_report(report)
 
 
-portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+# portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
 
 # files = ['Data/portfolio.csv', 'Data/portfolio2.csv']
 # for name in files:
