@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # report.py
 #
 # Exercise 2.4
@@ -92,3 +93,14 @@ def portfolio_report(portfolio_filename, prices_filename):
 #     print(f'{name:-^43s}')
 #     portfolio_report(name, 'Data/prices.csv')
 #     print()
+
+def main(args):
+    if len(args) != 3:
+        raise SystemExit(f'Usage: {args[0]} '
+                         'portfolio-file price-file')
+    portfolio_report(args[1], args[2])
+
+
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
