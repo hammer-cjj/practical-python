@@ -4,47 +4,50 @@
 import csv
 
 
-def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=',', silence_errors=False):
+def parse_csv(lines, select=None, types=None, has_headers=True, delimiter=',', silence_errors=False):
     """
-    Parse a CSV file into a list of records
+    Parse a file-like objects into a list of records
     """
     if select and not has_headers:
         raise RuntimeError('select argument requires column headers')
 
-    with open(filename) as f:
-        rows = csv.reader(f, delimiter=delimiter)
+    if isinstance(lines, str):
+        raise RuntimeError('file-like object required')
+    else:
+        rows = csv.reader(lines, delimiter=delimiter)
 
-        if has_headers:
-            # Read the file headers
-            headers = next(rows)
+    if has_headers:
+        # Read the headers
+        headers = next(rows)
 
-            if select:
-                indices = [headers.index(colname) for colname in select]
-                headers = select
-            else:
-                indices = []
+        if select:
+            indices = [headers.index(colname) for colname in select]
+            headers = select
+        else:
+            indices = []
 
-        records = []
-        for rowno, row in enumerate(rows, start=1):    # Skip rows with no data
-            if not row:
-                continue
-            try:
-                # Filter the row if specific columns are selected
-                if has_headers and indices:
-                    row = [row[index] for index in indices]
-                # Perform type conversion
-                if types:
-                    row = [func(val) for func, val in zip(types, row)]
+    records = []
+    for rowno, row in enumerate(rows, start=1):
+        if not row:    # Skip line with no data
+            continue
 
-                # Make a dictionary
-                if has_headers:
-                    record = dict(zip(headers, row))
-                else:    # Make a tuple
-                    record = tuple(row)
+        try:
+            # Filter the row if specific columns are selected
+            if has_headers and indices:
+                row = [row[index] for index in indices]
+            # Perform type conversion
+            if types:
+                row = [func(val) for func, val in zip(types, row)]
 
-                records.append(record)
-            except ValueError as e:
-                if not silence_errors:
-                    print(f"Row: {rowno} Couldn't convert {row}")
-                    print(f"Row: {rowno} {e}")
-        return records
+            # Make a dictionary
+            if has_headers:
+                record = dict(zip(headers, row))
+            else:    # Make a tuple
+                record = tuple(row)
+
+            records.append(record)
+        except ValueError as e:
+            if not silence_errors:
+                print(f"Row: {rowno} Couldn't convert {row}")
+                print(f"Row: {rowno} {e}")
+    return records
