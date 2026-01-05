@@ -4,6 +4,7 @@
 # Exercise 2.4
 import csv
 from fileparse import parse_csv
+import stock
 
 
 def read_portfolio(filename):
@@ -12,7 +13,9 @@ def read_portfolio(filename):
     name, shares, and price.
     """
     with open(filename) as lines:
-        return parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float])
+        lines_list = parse_csv(lines, select=['name', 'shares', 'price'], types=[
+            str, int, float])
+        return [stock.Stock(item['name'], item['shares'], item['price']) for item in lines_list]
 
 
 def read_portfolio2(filename):
@@ -61,9 +64,9 @@ def read_prices2(filename):
 def make_report(stocks, prices):
     report = []
     for stock in stocks:
-        current_price = prices[stock['name']]
-        change = current_price - float(stock['price'])
-        summary = (stock['name'], stock['shares'], current_price, change)
+        current_price = prices[stock.name]
+        change = current_price - stock.price
+        summary = (stock.name, stock.shares, current_price, change)
         report.append(summary)
     return report
 

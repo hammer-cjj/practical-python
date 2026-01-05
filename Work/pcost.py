@@ -9,7 +9,7 @@ import report
 
 def portfolio_cost(filename):
     portfolio = report.read_portfolio(filename)
-    return sum([float(item['price']) * int(item['shares']) for item in portfolio])
+    return sum([item.price * item.shares for item in portfolio])
 
 
 def portfolio_cost2(filename):
