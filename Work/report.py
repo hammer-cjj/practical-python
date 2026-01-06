@@ -103,19 +103,11 @@ def portfolio_report(portfoliofile, pricefile, fmt='txt'):
     print_report(report, formatter)
 
 
-# portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
-
-# files = ['Data/portfolio.csv', 'Data/portfolio2.csv']
-# for name in files:
-#     print(f'{name:-^43s}')
-#     portfolio_report(name, 'Data/prices.csv')
-#     print()
-
 def main(args):
-    if len(args) != 3:
+    if len(args) != 4:
         raise SystemExit(f'Usage: {args[0]} '
-                         'portfolio-file price-file')
-    portfolio_report(args[1], args[2])
+                         'portfolio-file price-file format')
+    portfolio_report(args[1], args[2], args[3])
 
 
 if __name__ == '__main__':
