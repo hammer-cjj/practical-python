@@ -20,11 +20,11 @@ def portfolio_cost2(filename):
     for rowno, row in enumerate(rows, start=1):
         record = dict(zip(headers, row))
         try:
-            nshares = int(record['shares'])
-            price = float(record['price'])
+            nshares = int(record["shares"])
+            price = float(record["price"])
             total += nshares * price
         except ValueError:
-            print(f'Row {rowno}: Bad row: {row}')
+            print(f"Row {rowno}: Bad row: {row}")
     f.close()
     return total
 
@@ -34,14 +34,16 @@ def portfolio_cost2(filename):
 # else:
 #     filename = 'Data/portfolio.csv'
 
+
 # cost = portfolio_cost(filename)
 # print('Total cost:', cost)
 def main(args):
     if len(args) != 2:
-        raise SystemExit('Usage: %s portfoliofile' % args[0])
-    print('Total cost:', portfolio_cost(args[1]))
+        raise SystemExit("Usage: %s portfoliofile" % args[0])
+    print("Total cost:", portfolio_cost(args[1]))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
+
     main(sys.argv)

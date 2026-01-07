@@ -4,15 +4,22 @@
 import csv
 
 
-def parse_csv(lines, select=None, types=None, has_headers=True, delimiter=',', silence_errors=False):
+def parse_csv(
+    lines,
+    select=None,
+    types=None,
+    has_headers=True,
+    delimiter=",",
+    silence_errors=False,
+):
     """
     Parse a file-like objects into a list of records
     """
     if select and not has_headers:
-        raise RuntimeError('select argument requires column headers')
+        raise RuntimeError("select argument requires column headers")
 
     if isinstance(lines, str):
-        raise RuntimeError('file-like object required')
+        raise RuntimeError("file-like object required")
     else:
         rows = csv.reader(lines, delimiter=delimiter)
 
@@ -28,7 +35,7 @@ def parse_csv(lines, select=None, types=None, has_headers=True, delimiter=',', s
 
     records = []
     for rowno, row in enumerate(rows, start=1):
-        if not row:    # Skip line with no data
+        if not row:  # Skip line with no data
             continue
 
         try:
@@ -42,7 +49,7 @@ def parse_csv(lines, select=None, types=None, has_headers=True, delimiter=',', s
             # Make a dictionary
             if has_headers:
                 record = dict(zip(headers, row))
-            else:    # Make a tuple
+            else:  # Make a tuple
                 record = tuple(row)
 
             records.append(record)

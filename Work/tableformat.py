@@ -19,13 +19,13 @@ class TextTableFormatter(TableFormatter):
 
     def headings(self, headers):
         for h in headers:
-            print(f'{h:>10s}', end=' ')
+            print(f"{h:>10s}", end=" ")
         print()
-        print(('-'*10 + ' ')*len(headers))
+        print(("-" * 10 + " ") * len(headers))
 
     def row(self, rowdata):
         for d in rowdata:
-            print(f'{d:>10s}', end=' ')
+            print(f"{d:>10s}", end=" ")
         print()
 
 
@@ -35,10 +35,10 @@ class CSVTableFormatter(TableFormatter):
     """
 
     def headings(self, headers):
-        print(','.join(headers))
+        print(",".join(headers))
 
     def row(self, rowdata):
-        print(','.join(rowdata))
+        print(",".join(rowdata))
 
 
 class HTMLTableFormatter(TableFormatter):
@@ -47,28 +47,28 @@ class HTMLTableFormatter(TableFormatter):
     """
 
     def headings(self, headers):
-        print('<tr>', end='')
+        print("<tr>", end="")
         for h in headers:
-            print(f'<th>{h}</th>', end='')
-        print('</tr>')
+            print(f"<th>{h}</th>", end="")
+        print("</tr>")
 
     def row(self, rowdata):
-        print('<tr>', end='')
+        print("<tr>", end="")
         for d in rowdata:
-            print(f'<td>{d}</td>', end='')
-        print('</tr>')
+            print(f"<td>{d}</td>", end="")
+        print("</tr>")
 
 
 def create_formatter(fmt):
-    '''
+    """
     Create an appropriate formatter given an output format name
-    '''
-    if fmt == 'txt':
+    """
+    if fmt == "txt":
         formatter = TextTableFormatter()
-    elif fmt == 'csv':
+    elif fmt == "csv":
         formatter = CSVTableFormatter()
-    elif fmt == 'html':
+    elif fmt == "html":
         formatter = HTMLTableFormatter()
     else:
-        raise RuntimeError(f'Unknown format {fmt}')
+        raise RuntimeError(f"Unknown format {fmt}")
     return formatter
