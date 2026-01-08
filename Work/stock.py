@@ -1,7 +1,9 @@
 class Stock:
+    __slots__ = ("name", "_shares", "price")
+
     def __init__(self, name, shares, price):
         self.name = name
-        self._shares = shares
+        self.shares = shares
         self.price = price
 
     @property
