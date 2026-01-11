@@ -4,6 +4,7 @@
 # Exercise 2.4
 import csv
 from fileparse import parse_csv
+from portfolio import Portfolio
 import stock
 import tableformat
 
@@ -13,14 +14,13 @@ def read_portfolio(filename):
     Read a stock portfolio file into a list of dictionaries with keys
     name, shares, and price.
     """
-    with open(filename) as lines:
-        lines_list = parse_csv(
-            lines, select=["name", "shares", "price"], types=[str, int, float]
+    with open(filename) as file:
+        portdicts = parse_csv(
+            file, select=["name", "shares", "price"], types=[str, int, float]
         )
-        return [
-            stock.Stock(item["name"], item["shares"], item["price"])
-            for item in lines_list
-        ]
+
+        portfolio = [stock.Stock(d["name"], d["shares"], d["price"]) for d in portdicts]
+        return Portfolio(portfolio)
 
 
 def read_portfolio2(filename):
