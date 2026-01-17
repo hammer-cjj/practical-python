@@ -38,7 +38,8 @@ def filter_symbols(rows, names):
 def ticker(portfile, logfile, fmt):
     portfolio = report.read_portfolio(portfile)
     rows = parse_stock_data(follow(logfile))
-    rows = filter_symbols(rows, portfolio)
+    # rows = filter_symbols(rows, portfolio)
+    rows = (row for row in rows if row["name"] in portfolio)
     formatter = create_formatter(fmt)
     formatter.headings(["Name", "Price", "Change"])
     for row in rows:
@@ -48,6 +49,6 @@ def ticker(portfile, logfile, fmt):
 if __name__ == "__main__":
     portfolio = report.read_portfolio("Data/portfolio.csv")
     rows = parse_stock_data(follow("Data/stocklog.csv"))
-    rows = filter_symbols(rows, portfolio)
+    rows = (row for row in rows if row["name"] in portfolio)
     for row in rows:
         print(row)
