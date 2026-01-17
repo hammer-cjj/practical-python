@@ -19,7 +19,7 @@ def read_portfolio(filename):
             file, select=["name", "shares", "price"], types=[str, int, float]
         )
 
-        portfolio = [stock.Stock(d["name"], d["shares"], d["price"]) for d in portdicts]
+        portfolio = [stock.Stock(**d) for d in portdicts]
         return Portfolio(portfolio)
 
 
@@ -109,7 +109,7 @@ def portfolio_report(portfoliofile, pricefile, fmt="txt"):
 
 def main(args):
     if len(args) != 4:
-        raise SystemExit(f"Usage: {args[0]} " "portfolio-file price-file format")
+        raise SystemExit(f"Usage: {args[0]} portfolio-file price-file format")
     portfolio_report(args[1], args[2], args[3])
 
 
