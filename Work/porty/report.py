@@ -3,11 +3,11 @@
 #
 # Exercise 2.4
 import csv
-from fileparse import parse_csv
-from portfolio import Portfolio
+from . import fileparse
+from .portfolio import Portfolio
 
 # import stock
-import tableformat
+import porty.tableformat as tableformat
 
 
 def read_portfolio(filename, **opts):
@@ -47,7 +47,7 @@ def read_prices(filename):
     Read a CSV file of price data into a dict mapping names to prices.
     """
     with open(filename) as lines:
-        return dict(parse_csv(lines, types=[str, float], has_headers=False))
+        return dict(fileparse.parse_csv(lines, types=[str, float], has_headers=False))
 
 
 def read_prices2(filename):

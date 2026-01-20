@@ -1,6 +1,6 @@
 # test_stock.py
 
-import stock
+import porty.stock as stock
 import unittest
 
 

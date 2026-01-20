@@ -1,9 +1,9 @@
 # ticker.py
 
-from follow import follow
+from porty.follow import follow
 import csv
-import report
-from tableformat import create_formatter, print_table
+import porty.report as report
+from porty.tableformat import create_formatter, print_table
 
 
 def select_columns(rows, indices):

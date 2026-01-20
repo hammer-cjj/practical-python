@@ -1,5 +1,5 @@
-import stock
-import fileparse
+import porty.stock as stock
+import porty.fileparse as fileparse
 
 
 class Portfolio:

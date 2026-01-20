@@ -2,7 +2,7 @@
 # pcost.py
 import sys
 import csv
-import report
+from . import report
 
 # Exercise 1.33
 
